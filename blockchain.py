@@ -52,7 +52,7 @@ class Blockchain:
     def is_chain_valid(self, chain):
         previous_block = self.chain[0]
         block_index = 1
-        while(block_index < len(self.chain):
+        while block_index < len(self.chain):
             current_block = self.chain[block_index]
             if current_block['previous_hash'] != self.hash(previous_block):
                 return False
@@ -94,3 +94,13 @@ def get_chain():
     response = {'chain': blockchain.chain,
                 'length': len(blockchain.chain)}
     return jsonify(response), 200
+
+# Validating the blockchain
+@app.route('/is_valid', methods = ['GET'])
+def is_valid():
+    response = {'is_valid': blockchain.is_chain_valid(blockchain.chain)}
+    return jsonify(response), 200
+
+
+# Running the app
+app.run(host = '0.0.0.0', port = '5000')
